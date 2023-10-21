@@ -17,7 +17,7 @@
             </li>
           </ul>
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0" role="search">
-            <a class="btn btn-success" href="https://santrikoding.com" target="_blank">SANTRIKODING.COM</a>
+            <a class="btn btn-success" href="https://s.id/hendisantika" target="_blank">hendisantika</a>
           </ul>
         </div>
       </div>
