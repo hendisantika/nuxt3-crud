@@ -10,6 +10,20 @@ const config = useRuntimeConfig();
 //fetch data from API with "useAsyncData"
 const {data: posts}: any = await useAsyncData('posts', () => $fetch(`${config.public.apiBase}/api/posts`))
 
+//method deletePost
+const deletePost = async (id: number) => {
+
+  //delete data with API
+  await $fetch(`${config.public.apiBase}/api/posts/${id}`, {
+
+    //method
+    method: 'DELETE'
+  });
+
+  //refresh data posts
+  refreshNuxtData('posts');
+}
+
 </script>
 
 <template>
