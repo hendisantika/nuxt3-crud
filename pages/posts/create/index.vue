@@ -1,9 +1,95 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+
+//meta title
+useHead({
+  title: 'Create a Post - hendisantika',
+});
+
+//init config
+const config = useRuntimeConfig();
+
+//init router
+const router = useRouter();
+
+//define state
+const image = ref('');
+const title = ref('');
+const content = ref('');
+const errors: any = ref({});
+
+//method for handle file changes
+const handleFileChange = (e: any) => {
+
+  //assign file to state
+  image.value = e.target.files[0]
+}
+
+//method "storePost"
+const storePost = async () => {
+
+  //init formData
+  let formData = new FormData();
+
+  //assign state value to formData
+  formData.append('image', image.value);
+  formData.append('title', title.value);
+  formData.append('content', content.value);
+
+  //store data with API
+  await $fetch(`${config.public.apiBase}/api/posts`, {
+
+    //method
+    method: 'POST',
+
+    //data
+    body: formData
+  })
+      .then(() => {
+        //redirect
+        router.push({path: "/posts"});
+      })
+      .catch((error) => {
+
+        //assign response error data to state "errors"
+        errors.value = error.data
+      });
+}
+
+</script>
 
 <template>
-  <div>
-    Page: foo
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card border-0 rounded shadow">
+          <div class="card-body">
+            <form @submit.prevent="storePost()">
+              <div class="mb-3">
+                <label class="form-label fw-bold">Image</label>
+                <input class="form-control" type="file" @change="handleFileChange($event)">
+                <div v-if="errors.image" class="alert alert-danger mt-2">
+                  <span>{{ errors.image[0] }}</span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold">Title</label>
+                <input v-model="title" class="form-control" placeholder="Title Post" type="text">
+                <div v-if="errors.title" class="alert alert-danger mt-2">
+                  <span>{{ errors.title[0] }}</span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold">Content</label>
+                <textarea v-model="content" class="form-control" placeholder="Content Post" rows="5"></textarea>
+                <div v-if="errors.content" class="alert alert-danger mt-2">
+                  <span>{{ errors.content[0] }}</span>
+                </div>
+              </div>
+              <button class="btn btn-md btn-primary rounded-sm shadow border-0" type="submit">Save</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-
-<style scoped></style>
