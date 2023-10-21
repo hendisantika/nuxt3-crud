@@ -53,7 +53,8 @@ const deletePost = async (id: number) => {
                   <NuxtLink :to="`/posts/edit/${post.id}`"
                             class="btn btn-sm btn-primary rounded-sm shadow border-0 me-2">EDIT
                   </NuxtLink>
-                  <button class="btn btn-sm btn-danger rounded-sm shadow border-0">DELETE</button>
+                  <button class="btn btn-sm btn-danger rounded-sm shadow border-0" @click="deletePost(post.id)">DELETE
+                  </button>
                 </td>
               </tr>
               </tbody>
